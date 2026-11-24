@@ -1,0 +1,22 @@
+{
+  "name": "catalog-service",
+  "version": "1.0.0",
+  "description": "Servicio de catálogo de preguntas. Expone API interna POST /internal/preguntas/get para obtener preguntas aleatorias por categoría.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "import:questions": "node src/cli/importQuestions.js",
+    "test": "node --test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.24.6",
+    "sequelize": "^6.37.8"
+  }
+}

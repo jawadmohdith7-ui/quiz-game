@@ -1,0 +1,102 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/ScreensUss.uss?fileID=7433441132597879392&amp;guid=af6dc9a867e82e7c7ac6302d8f1b439a&amp;type=3#ScreensUss"/>
+    <ui:VisualElement name="room-screen" class="screen">
+        <ui:VisualElement class="top-bar">
+            <ui:Label name="room-title" text="Sala" class="title title-inline"/>
+            <ui:Label name="room-category" text="Categoria" class="hint"/>
+            <ui:Button name="leave-button" text="Sortir de la sala" class="btn btn-danger"/>
+        </ui:VisualElement>
+        <ui:VisualElement class="row invite-box">
+            <ui:Label text="Codi invitació" class="field-label"/>
+            <ui:Label name="invite-code" text="------" class="invite-code"/>
+            <ui:Button name="copy-button" text="Copiar" class="btn btn-small"/>
+        </ui:VisualElement>
+        <ui:Label name="room-error" class="error"/>
+        <ui:VisualElement class="columns">
+            <ui:VisualElement class="col-left">
+                <ui:VisualElement name="setup-section" class="room-section" style="display: none;">
+                    <ui:Label text="Configuració de la partida" class="title"/>
+                    <ui:VisualElement class="form-row">
+                        <ui:VisualElement class="form-col">
+                            <ui:Label text="Categoria" class="field-label"/>
+                            <ui:DropdownField name="category-select" class="input"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="form-col form-col-last">
+                            <ui:Label text="Dificultat" class="field-label"/>
+                            <ui:DropdownField name="difficulty-select" class="input"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="form-row">
+                        <ui:VisualElement class="form-col">
+                            <ui:Label text="Rondes" class="field-label"/>
+                            <ui:IntegerField name="rounds-input" value="5" class="input"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="form-col form-col-last">
+                            <ui:Label text="Segons per ronda" class="field-label"/>
+                            <ui:IntegerField name="duration-input" value="30" class="input"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:Button name="save-config-button" text="Desar configuració" class="btn btn-primary"/>
+                    <ui:Button name="start-game-button" text="Començar partida" class="btn"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="waiting-section" class="room-section" style="display: none;">
+                    <ui:Label text="Sala d&apos;espera" class="title"/>
+                    <ui:Label name="waiting-text" text="Esperant jugadors..." class="hint"/>
+                    <ui:Button name="ready-button" text="A punt" class="btn"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="round-section" class="room-section" style="display: none;">
+                    <ui:Label name="countdown" text="00:30" class="countdown"/>
+                    <ui:Label name="question-text" text="Carregant pregunta..." class="question-display"/>
+                    <ui:Label text="Resposta" class="field-label"/>
+                    <ui:VisualElement class="answer-row">
+                        <ui:TextField name="answer-input" placeholder-text="Escriu la teva resposta..." class="input input-grow"/>
+                        <ui:Label name="answer-unit" class="unit-label"/>
+                    </ui:VisualElement>
+                    <ui:Button name="send-answer-button" text="Enviar resposta" class="btn btn-primary"/>
+                    <ui:Label name="answer-status" class="vote-status"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="result-section" class="room-section" style="display: none;">
+                    <ui:Label text="Resultat de la ronda" class="title"/>
+                    <ui:Label name="result-question-text" text="Pregunta" class="question-display"/>
+                    <ui:Label name="correct-answer-text" text="Resposta correcta" class="correct-answer-display"/>
+                    <ui:Label name="result-message" class="hint"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="ranking-section" class="room-section" style="display: none;">
+                    <ui:Label text="Rànquing" class="title"/>
+                    <ui:ScrollView name="ranking-list" class="ranking-list"/>
+                    <ui:Button name="next-round-button" text="Següent ronda" class="btn btn-primary"/>
+                    <ui:Label name="ranking-waiting" text="Esperant l&apos;amfitrió..." class="hint"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="finished-section" class="room-section" style="display: none;">
+                    <ui:Label text="Partida acabada" class="title"/>
+                    <ui:ScrollView name="final-ranking-list" class="ranking-list"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="spectator-section" class="room-section" style="display: none;">
+                    <ui:Label text="Mode espectador" class="title"/>
+                    <ui:Label name="spectator-text" text="Estàs veient la partida..." class="hint"/>
+                    <ui:Label name="spectator-countdown" text="--" class="countdown"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="col-right">
+                <ui:VisualElement class="players-box">
+                    <ui:VisualElement class="row">
+                        <ui:Label name="players-count" text="Jugadors (0)" class="players-header"/>
+                    </ui:VisualElement>
+                    <ui:ScrollView name="players-list" class="players-list"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="chat-box">
+                    <ui:VisualElement class="row players-header">
+                        <ui:Label name="chat-title" text="CHAT DE LA SALA" class="title-inline"/>
+                        <ui:Label name="chat-count" text="0" class="chat-count"/>
+                    </ui:VisualElement>
+                    <ui:Label name="chat-empty" text="Encara no hi ha missatges. Inicia la conversa." class="empty"/>
+                    <ui:ScrollView name="chat-list" class="chat-list"/>
+                    <ui:VisualElement class="chat-input-row">
+                        <ui:TextField name="chat-input" placeholder-text="Escriu al xat..." class="input input-grow"/>
+                        <ui:Button name="chat-send-button" text="ENVIAR" class="btn btn-small"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

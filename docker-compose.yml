@@ -1,0 +1,143 @@
+# Producció: només nginx és públic. La resta de serveis viuen a la xarxa interna.
+# S'aixeca amb: docker compose up -d --build  (llegeix .env del costat)
+services:
+  mariadb:
+    image: mariadb:11
+    container_name: mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MARIADB_DATABASE: ${DB_NAME:-howmuch}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./backend/database/sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./backend/database/sql/dades-inicials.sql:/docker-entrypoint-initdb.d/02-dades-inicials.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - tr1-network
+
+  catalog-service:
+    build:
+      context: ./backend/catalog-service
+    container_name: catalog-service
+    restart: unless-stopped
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      DB_NAME: ${DB_NAME:-howmuch}
+      INTERNAL_SECRET: ${INTERNAL_SECRET:?defineix INTERNAL_SECRET al .env}
+      AUTH_SECRET: ${AUTH_SECRET:?defineix AUTH_SECRET al .env}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - tr1-network
+
+  auth-service:
+    build:
+      context: ./backend/auth-service
+    container_name: auth-service
+    restart: unless-stopped
+    environment:
+      PORT: 3011
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      DB_NAME: ${DB_NAME:-howmuch}
+      AUTH_SECRET: ${AUTH_SECRET:?defineix AUTH_SECRET al .env}
+      INTERNAL_SECRET: ${INTERNAL_SECRET:?defineix INTERNAL_SECRET al .env}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - tr1-network
+
+  stats-service:
+    build:
+      context: ./backend/stats-service
+    container_name: stats-service
+    restart: unless-stopped
+    environment:
+      PORT: 3012
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      DB_NAME: ${DB_NAME:-howmuch}
+      AUTH_SECRET: ${AUTH_SECRET:?defineix AUTH_SECRET al .env}
+      INTERNAL_SECRET: ${INTERNAL_SECRET:?defineix INTERNAL_SECRET al .env}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    networks:
+      - tr1-network
+
+  game-service:
+    build:
+      context: ./backend/game-service
+    container_name: game-service
+    restart: unless-stopped
+    environment:
+      PORT: 3000
+      GRACE_MS: ${GRACE_MS:-10000}
+      CATALOG_URL: http://catalog-service:3001
+      AUTH_URL: http://auth-service:3011
+      STATS_URL: http://stats-service:3012
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      DB_NAME: ${DB_NAME:-howmuch}
+      AUTH_SECRET: ${AUTH_SECRET:?defineix AUTH_SECRET al .env}
+      INTERNAL_SECRET: ${INTERNAL_SECRET:?defineix INTERNAL_SECRET al .env}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      catalog-service:
+        condition: service_started
+      auth-service:
+        condition: service_started
+      stats-service:
+        condition: service_started
+    networks:
+      - tr1-network
+
+  nginx:
+    build:
+      context: .
+      dockerfile: dev/nginx/Dockerfile
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-8080}:80"
+      - "443:443"
+    volumes:
+      # Certificat de Let's Encrypt gestionat per certbot a l'amfitrió
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      - game-service
+      - catalog-service
+      - auth-service
+      - stats-service
+    networks:
+      - tr1-network
+
+volumes:
+  mariadb_data:
+
+networks:
+  tr1-network:
+    driver: bridge

@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/ScreensUss.uss?fileID=7433441132597879392&amp;guid=af6dc9a867e82e7c7ac6302d8f1b439a&amp;type=3#ScreensUss"/>
+    <ui:VisualElement name="dialog-root" class="dialog-overlay" style="display: none;">
+        <ui:VisualElement class="dialog-card">
+            <ui:Label name="dialog-title" text="Crear sala pública" class="title"/>
+            <ui:Label text="Nom de la sala" class="field-label"/>
+            <ui:TextField name="room-name-input" max-length="20" class="input"/>
+            <ui:Label name="name-error" class="error"/>
+            <ui:Label text="Màxim de jugadors" class="field-label"/>
+            <ui:IntegerField name="max-players-input" value="8" class="input"/>
+            <ui:Label name="players-error" class="error"/>
+            <ui:Label text="Tipus de sala" class="field-label"/>
+            <ui:VisualElement class="toggle-row">
+                <ui:Button name="public-button" text="Pública" class="toggle-btn toggle-on"/>
+                <ui:Button name="private-button" text="Privada" class="toggle-btn"/>
+            </ui:VisualElement>
+            <ui:Label name="private-hint" text="Es generarà un codi d&apos;accés en crear la sala." class="hint"/>
+            <ui:Label name="dialog-server-error" class="error"/>
+            <ui:VisualElement class="create-row">
+                <ui:Button name="dialog-cancel-button" text="Cancel·lar" class="btn btn-ghost"/>
+                <ui:Button name="dialog-create-button" text="Crear sala" class="btn"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

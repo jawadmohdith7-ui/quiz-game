@@ -1,0 +1,51 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/ScreensUss.uss?fileID=7433441132597879392&amp;guid=af6dc9a867e82e7c7ac6302d8f1b439a&amp;type=3#ScreensUss"/>
+    <ui:VisualElement class="screen">
+        <ui:VisualElement class="top-bar">
+            <ui:Button name="nickname-btn" text="Jugador" class="btn btn-ghost"/>
+            <ui:VisualElement style="flex-grow: 1;"/>
+            <ui:Button name="profile-button" text="Perfil" class="btn btn-ghost"/>
+        </ui:VisualElement>
+        <ui:Label name="main-error" class="error"/>
+        <ui:VisualElement class="columns">
+            <ui:VisualElement class="col-left">
+                <ui:Label text="Sales públiques" class="title"/>
+                <ui:VisualElement name="profile-card" class="profile-card" style="display: none;">
+                    <ui:Label name="profile-nickname" text="Jugador" class="players-header"/>
+                    <ui:Label name="profile-id" text="---" class="hint"/>
+                </ui:VisualElement>
+                <ui:Label name="status-label" text="Carregant sales..." class="hint"/>
+                <ui:Button name="retry-button" text="Reintenta" class="btn btn-small"/>
+                <ui:ScrollView name="rooms-list" class="rooms-list"/>
+            </ui:VisualElement>
+            <ui:VisualElement class="col-right">
+                <ui:Button name="create-room-button" text="Crear sala" class="btn btn-primary"/>
+                <ui:Label text="Sala privada (codi)" class="field-label"/>
+                <ui:VisualElement class="row">
+                    <ui:TextField name="join-code-input" max-length="20" class="input input-grow"/>
+                    <ui:Button name="join-code-button" text="Entrar" class="btn"/>
+                </ui:VisualElement>
+                <ui:Label text="Buscar per nom sala" class="field-label"/>
+                <ui:VisualElement class="row">
+                    <ui:TextField name="search-input" max-length="30" class="input input-grow"/>
+                    <ui:Button name="search-button" text="Buscar" class="btn"/>
+                </ui:VisualElement>
+                <ui:Label text="Filtrar per categoria" class="field-label"/>
+                <ui:DropdownField name="category-filter" class="input"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement/>
+        <ui:VisualElement name="nickname-dialog" class="dialog-overlay" style="display: none;">
+            <ui:VisualElement class="dialog-card">
+                <ui:Label text="Canviar el nom" class="title"/>
+                <ui:Label text="Nom de jugador" class="field-label"/>
+                <ui:TextField name="nickname-dialog-input" max-length="15" class="input"/>
+                <ui:Label name="nickname-dialog-error" class="error" style="display: none;"/>
+                <ui:VisualElement class="create-row">
+                    <ui:Button name="nickname-cancel-button" text="Cancel·lar" class="btn btn-ghost"/>
+                    <ui:Button name="nickname-save-button" text="Desar" class="btn"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

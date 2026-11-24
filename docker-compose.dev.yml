@@ -1,0 +1,167 @@
+# Entorn de desenvolupament (phpMyAdmin, ports oberts, Vite en mode dev).
+# S'aixeca amb: docker compose -f docker-compose.dev.yml up -d
+services:
+  mariadb:
+    image: mariadb:11
+    container_name: mariadb
+    ports:
+      - "3306:3306"
+    networks:
+      - tr1-network
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MARIADB_DATABASE: ${DB_NAME:-howmuch}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./backend/database/sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./backend/database/sql/dades-inicials.sql:/docker-entrypoint-initdb.d/02-dades-inicials.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -uroot -p$${MARIADB_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8081:80"
+    networks:
+      - tr1-network
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mariadb
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  catalog-service:
+    build:
+      context: ./backend/catalog-service
+      dockerfile: Dockerfile
+    container_name: catalog-service
+    ports:
+      - "3001:3001"
+    networks:
+      - tr1-network
+    restart: unless-stopped
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      DB_NAME: ${DB_NAME:-howmuch}
+      INTERNAL_SECRET: ${INTERNAL_SECRET:?defineix INTERNAL_SECRET al .env}
+      AUTH_SECRET: ${AUTH_SECRET:?defineix AUTH_SECRET al .env}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  auth-service:
+    build:
+      context: ./backend/auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    ports:
+      - "3011:3011"
+    networks:
+      - tr1-network
+    restart: unless-stopped
+    environment:
+      PORT: 3011
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      DB_NAME: ${DB_NAME:-howmuch}
+      AUTH_SECRET: ${AUTH_SECRET:?defineix AUTH_SECRET al .env}
+      INTERNAL_SECRET: ${INTERNAL_SECRET:?defineix INTERNAL_SECRET al .env}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-false}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  stats-service:
+    build:
+      context: ./backend/stats-service
+      dockerfile: Dockerfile
+    container_name: stats-service
+    ports:
+      - "3012:3012"
+    networks:
+      - tr1-network
+    restart: unless-stopped
+    environment:
+      PORT: 3012
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      DB_NAME: ${DB_NAME:-howmuch}
+      AUTH_SECRET: ${AUTH_SECRET:?defineix AUTH_SECRET al .env}
+      INTERNAL_SECRET: ${INTERNAL_SECRET:?defineix INTERNAL_SECRET al .env}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  game-service:
+    build:
+      context: ./backend/game-service
+      dockerfile: Dockerfile
+    container_name: game-service
+    ports:
+      - "3000:3000"
+    networks:
+      - tr1-network
+    restart: unless-stopped
+    environment:
+      PORT: 3000
+      GRACE_MS: ${GRACE_MS:-10000}
+      CATALOG_URL: http://catalog-service:3001
+      AUTH_URL: http://auth-service:3011
+      STATS_URL: http://stats-service:3012
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      DB_NAME: ${DB_NAME:-howmuch}
+      AUTH_SECRET: ${AUTH_SECRET:?defineix AUTH_SECRET al .env}
+      INTERNAL_SECRET: ${INTERNAL_SECRET:?defineix INTERNAL_SECRET al .env}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      catalog-service:
+        condition: service_started
+      auth-service:
+        condition: service_started
+      stats-service:
+        condition: service_started
+
+  client-vue:
+    build:
+      context: ./frontend/client-vue
+      dockerfile: Dockerfile
+    container_name: client-vue
+    ports:
+      - "5173:5173"
+    networks:
+      - tr1-network
+    restart: unless-stopped
+    depends_on:
+      - game-service
+      - catalog-service
+      - auth-service
+      - stats-service
+
+volumes:
+  mariadb_data:
+
+networks:
+  tr1-network:
+    driver: bridge

@@ -1,0 +1,37 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/ScreensUss.uss?fileID=7433441132597879392&amp;guid=af6dc9a867e82e7c7ac6302d8f1b439a&amp;type=3#ScreensUss"/>
+    <ui:VisualElement class="screen">
+        <ui:VisualElement class="top-bar top-bar-right">
+            <ui:Button name="leave-button" text="Tornar" class="btn btn-ghost"/>
+        </ui:VisualElement>
+        <ui:Label text="Perfil d&apos;usuari" class="title"/>
+        <ui:VisualElement class="columns">
+            <ui:VisualElement class="col-left">
+                <ui:Label text="Nickname" class="field-label"/>
+                <ui:TextField name="nickname-field" class="input"/>
+                <ui:VisualElement class="stats-grid">
+                    <ui:VisualElement class="stat-card">
+                        <ui:Label text="Partides jugades" class="hint"/>
+                        <ui:Label name="games-played" text="0" class="stat-value"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-card">
+                        <ui:Label text="Victòries (top 1)" class="hint"/>
+                        <ui:Label name="wins-count" text="0" class="stat-value"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-card">
+                        <ui:Label text="Mitjana encerts" class="hint"/>
+                        <ui:Label name="accuracy-rate" text="0%" class="stat-value"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="stat-card">
+                        <ui:Label text="Podi (top 2, top 3)" class="hint"/>
+                        <ui:Label name="podium-count" text="0" class="stat-value"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="col-right">
+                <ui:Label text="Historial partides" class="field-label"/>
+                <ui:ScrollView name="history-list" class="history-list"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

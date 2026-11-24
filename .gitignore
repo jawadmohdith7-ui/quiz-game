@@ -1,0 +1,19 @@
+# =============================
+# Ignores de nivell arrel del projecte (tr1-dam-equip6)
+# =============================
+
+# Carpeta d'OpenCode (config i estat local, no es commiteja)
+.opencode/
+
+# Estat local de Superpowers SDD (ledger, briefs, review packages)
+.superpowers/
+
+# Carpeta d'especificacions OpenSpec (no es commiteja)
+openspec/
+
+node_modules/
+dist/
+
+# Variables d'entorn amb secrets (només es commiteja .env.example)
+.env
+**/.env

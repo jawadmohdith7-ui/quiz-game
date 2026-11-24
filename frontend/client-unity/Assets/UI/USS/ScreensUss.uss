@@ -1,0 +1,220 @@
+/* ==========================================================================
+   Dark Navy Theme — ScreensUss.uss
+   Background: #0b1325 | Cards: #14213d | Text: #f0f4f8
+   Accent: #f59e0b | Borders: #1d2d50
+   ========================================================================== */
+
+.screen {
+    flex-grow: 1;
+    padding: 20px 28px;
+    background-color: #0b1325;
+}
+
+.top-bar { flex-direction: row; align-items: center; margin-bottom: 16px; }
+.top-bar-right { justify-content: flex-end; }
+#room-category { margin-right: 12px; }
+
+.columns { flex-grow: 1; flex-direction: row; }
+.col-left { flex-grow: 3; flex-basis: 0; margin-right: 32px; }
+.col-right { flex-grow: 2; flex-basis: 0; }
+
+.row { flex-direction: row; align-items: center; }
+
+/* ---------- Textos ---------- */
+.title { font-size: 30px; -unity-font-style: bold; color: #f0f4f8; margin-bottom: 10px; }
+.title-inline { flex-grow: 1; margin-bottom: 0; }
+.field-label { font-size: 15px; -unity-font-style: bold; color: #f0f4f8; margin-top: 14px; margin-bottom: 5px; }
+.hint { color: #94a3b8; margin-bottom: 8px; }
+.error { color: #ff5a5a; margin-top: 4px; }
+
+/* ---------- Taula de sales ---------- */
+.table-header { background-color: #14213d; }
+.header-cell { -unity-font-style: bold; color: #f0f4f8; }
+.cell { padding: 10px 12px; color: #f0f4f8; }
+
+.col-name { flex-grow: 3; flex-basis: 0; }
+.col-players { flex-grow: 2; flex-basis: 0; }
+.col-category { flex-grow: 3; flex-basis: 0; }
+.col-action { width: 56px; }
+
+/* Estat de la sala (equivalent al v-chip de Vue) */
+.badge { padding: 3px 10px; border-radius: 10px; font-size: 12px; -unity-font-style: bold; margin-right: 8px; }
+.badge-lobby { background-color: #1d4ed8; color: #dbeafe; }
+.badge-playing { background-color: #f59e0b; color: #0b1325; }
+.badge-finished { background-color: #7f1d1d; color: #fecaca; }
+
+.rooms-list { flex-grow: 1; border-width: 1px; border-color: #1d2d50; }
+.room-row { flex-direction: row; align-items: center; border-bottom-width: 1px; border-bottom-color: #1d2d50; }
+.empty { padding: 16px; color: #94a3b8; -unity-text-align: middle-center; }
+
+/* ---------- Botons ---------- */
+.btn {
+    background-color: #f59e0b;
+    color: #0b1325;
+    border-width: 0;
+    border-radius: 8px;
+    padding: 8px 14px;
+    margin: 0;
+    font-size: 15px;
+    -unity-font-style: bold;
+}
+.btn:hover { background-color: #d97706; }
+.btn:active { background-color: #b45309; }
+.btn:disabled { opacity: 0.4; }
+
+.btn-ghost { background-color: #14213d; border-width: 1px; border-color: #1d2d50; color: #f0f4f8; }
+.btn-ghost:hover { background-color: #1d2d50; }
+.btn-icon { width: 36px; height: 36px; padding: 0; font-size: 20px; margin-right: 8px; }
+.btn-small { padding: 5px 10px; font-size: 13px; align-self: flex-start; margin-bottom: 8px; border-radius: 6px; }
+.btn-primary { margin-top: 20px; padding: 12px 18px; font-size: 16px; -unity-font-style: bold; }
+
+/* ---------- Camps de text i desplegables ---------- */
+.input { margin: 0; }
+.input-grow { flex-grow: 1; margin-right: 8px; }
+.answer-row { flex-direction: row; align-items: center; }
+.unit-label { color: #94a3b8; font-size: 15px; min-width: 24px; }
+
+.input .unity-base-text-field__input,
+.input .unity-base-popup-field__input {
+    background-color: #14213d;
+    color: #f0f4f8;
+    border-width: 1px;
+    border-color: #1d2d50;
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 15px;
+}
+
+/* ---------- Pantalla de crear sala ---------- */
+.form { width: 100%; max-width: 600px; align-self: center; }
+.form-row { flex-direction: row; }
+.form-col { flex-grow: 1; flex-basis: 0; margin-right: 20px; }
+.form-col-last { margin-right: 0; }
+
+.toggle-row { flex-direction: row; }
+.toggle-btn {
+    flex-grow: 1;
+    background-color: #14213d;
+    color: #f0f4f8;
+    border-width: 1px;
+    border-color: #1d2d50;
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin: 0 8px 0 0;
+    font-size: 15px;
+}
+.toggle-on, .toggle-on:hover { background-color: #f59e0b; border-color: #f59e0b; color: #0b1325; }
+
+
+/* ---------- Pantalla de Lobby ---------- */
+.players-box { flex-grow: 1; flex-basis: 0; margin-top: 12px; }
+.players-header { font-size: 15px; -unity-font-style: bold; color: #f0f4f8; margin-bottom: 8px; }
+.players-list { flex-grow: 1; border-width: 1px; border-color: #1d2d50; background-color: #14213d; border-radius: 12px; }
+
+.chat-box { flex-grow: 1; flex-basis: 0; margin-top: 12px; min-height: 200px; }
+.chat-list { flex-grow: 1; border-width: 1px; border-color: #1d2d50; background-color: #14213d; border-radius: 12px; }
+.chat-count { color: #f59e0b; -unity-font-style: bold; margin: 0; }
+.chat-row { padding: 8px 12px; border-bottom-width: 1px; border-bottom-color: #1d2d50; }
+.chat-header { flex-direction: row; align-items: center; justify-content: space-between; }
+.chat-author { color: #f0f4f8; -unity-font-style: bold; font-size: 13px; }
+.chat-time { color: #94a3b8; font-size: 12px; }
+.chat-text { color: #f0f4f8; font-size: 15px; white-space: normal; }
+.chat-input-row { flex-direction: row; align-items: center; }
+.chat-input-row .btn-small { align-self: center; margin-bottom: 0; }
+
+.countdown { font-size: 18px; -unity-font-style: bold; color: #f59e0b; margin-bottom: 14px; }
+.invite-box { margin-bottom: 16px; }
+.invite-box .field-label { margin: 0 10px 0 0; }
+.invite-box .invite-code { margin-bottom: 0; }
+.invite-box .btn-small { align-self: center; margin-bottom: 0; }
+.invite-code { font-size: 24px; -unity-font-style: bold; color: #f0f4f8; margin-bottom: 8px; }
+
+
+/* ---------- Pantalla de Perfil ---------- */
+.stats-grid { flex-direction: row; flex-wrap: wrap; margin-top: 14px; }
+.stat-card { width: 48%; margin-bottom: 10px; background-color: #14213d; border-width: 1px; border-color: #1d2d50; border-radius: 12px; padding: 10px 12px; }
+.stat-value { font-size: 20px; -unity-font-style: bold; color: #f59e0b; margin-top: 4px; }
+
+.history-list { flex-grow: 1; border-width: 1px; border-color: #1d2d50; background-color: #14213d; border-radius: 12px; margin-top: 6px; }
+.history-row { flex-direction: row; justify-content: space-between; padding: 10px 12px; border-bottom-width: 1px; border-bottom-color: #1d2d50; color: #f0f4f8; }
+
+
+/* ---------- Pantalla de Pregunta / Resposta ---------- */
+.question-display { font-size: 18px; -unity-font-style: bold; color: #f0f4f8; background-color: #14213d; border-width: 1px; border-color: #1d2d50; border-radius: 12px; padding: 14px; margin-bottom: 14px; white-space: normal; }
+
+/* ---------- Pantalla de Resposta Correcta ---------- */
+.correct-answer-display { font-size: 18px; -unity-font-style: bold; color: #22c55e; background-color: #14213d; border-width: 1px; border-color: #22c55e; border-radius: 12px; padding: 14px; white-space: normal; }
+
+
+/* ---------- Pantalla de Rànquing Provisional ---------- */
+.ranking-list { flex-grow: 1; border-width: 1px; border-color: #1d2d50; background-color: #14213d; border-radius: 12px; margin-top: 8px; }
+.ranking-row { flex-direction: row; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom-width: 1px; border-bottom-color: #1d2d50; color: #f0f4f8; }
+.ranking-rank { font-size: 16px; -unity-font-style: bold; color: #f59e0b; width: 40px; }
+.ranking-name { flex-grow: 1; font-size: 15px; color: #f0f4f8; }
+.ranking-score { font-size: 15px; -unity-font-style: bold; color: #f0f4f8; }
+
+
+/* ---------- Pantalla de Resultats Finals i Podi ---------- */
+.podium-container { flex-direction: row; align-items: flex-end; justify-content: center; margin-top: 10px; margin-bottom: 14px; height: 140px; }
+.podium-step { width: 30%; background-color: #14213d; border-width: 1px; border-color: #1d2d50; border-radius: 12px; padding: 8px; margin-right: 2%; align-items: center; justify-content: center; }
+.podium-first { height: 140px; background-color: #1d2d50; border-color: #f59e0b; margin-right: 2%; }
+.podium-second { height: 110px; background-color: #1d2d50; border-color: #94a3b8; }
+.podium-third { height: 90px; background-color: #1d2d50; border-color: #f59e0b; margin-right: 0; }
+
+.podium-rank { font-size: 16px; -unity-font-style: bold; color: #f0f4f8; margin-bottom: 4px; }
+.podium-name { font-size: 14px; -unity-font-style: bold; color: #f0f4f8; margin-bottom: 2px; }
+.podium-score { font-size: 13px; color: #94a3b8; }
+
+.remaining-list { flex-grow: 1; border-width: 1px; border-color: #1d2d50; background-color: #14213d; border-radius: 12px; margin-top: 6px; }
+
+
+/* ---------- Pantalla Inicial (StartScreen) ---------- */
+.start-screen { justify-content: center; align-items: center; }
+.start-container { align-items: center; justify-content: center; }
+.start-title { font-size: 64px; -unity-font-style: bold; color: #f59e0b; margin-bottom: 20px; -unity-text-align: middle-center; }
+.start-prompt { font-size: 18px; color: #94a3b8; -unity-text-align: middle-center; }
+
+
+/* ---------- Seccions de la sala (RoomScreen) ---------- */
+.room-section { flex-grow: 1; margin-top: 8px; }
+
+.player-chip { flex-direction: row; align-items: center; padding: 8px 12px; color: #f0f4f8; border-bottom-width: 1px; border-bottom-color: #1d2d50; }
+.player-chip-me { background-color: #1d2d50; }
+.player-chip-host { -unity-font-style: bold; }
+
+
+/* ---------- Pantalla Principal: targeta de perfil ---------- */
+.profile-card { background-color: #14213d; border-width: 1px; border-color: #1d2d50; border-radius: 12px; padding: 12px; margin-top: 8px; }
+
+.create-row { flex-direction: row; align-items: center; }
+
+/* ---------- Diàleg de crear sala ---------- */
+.dialog-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(11, 19, 37, 0.88);
+    align-items: center;
+    justify-content: center;
+}
+.dialog-card {
+    width: 100%;
+    max-width: 500px;
+    background-color: #14213d;
+    border-width: 1px;
+    border-color: #1d2d50;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+/* ---------- Botons i camps amb error ---------- */
+.btn-danger { background-color: #ff5a5a; color: #ffffff; }
+.btn-danger:hover { background-color: #d94444; }
+
+.input-error { border-width: 1px; border-color: #ff5a5a; border-radius: 8px; }
+.input-error .unity-base-text-field__input,
+.input-error .unity-base-popup-field__input { border-color: #ff5a5a; }
+
+.vote-status { font-size: 14px; -unity-font-style: bold; color: #f59e0b; margin-top: 8px; }

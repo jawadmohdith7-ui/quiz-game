@@ -1,0 +1,36 @@
+name: Desplegament automatic al servidor
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: deploy-produccio
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Connectar per SSH i actualitzar Docker
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 2.31.115.36
+          username: root
+          key: ${{ secrets.TR1_GHACTIONS }}
+          port: 22
+          script: |
+            # ENTRAR A LA CARPETA DEL PROJECTE AL SERVIDOR
+            cd ~/tr1-dam-equip6
+
+            # DEIXAR EL SERVIDOR EXACTAMENT COM ESTA A origin/main
+            # EL .env NO ESTA AL REPO, AIXÍ QUE NO ES PERD
+            git fetch --prune
+            git reset --hard origin/main
+
+            # RECONSTRUIR I ENCENDRE LES CAIXES QUE HAGIN CANVIAT
+            docker compose up -d --build --remove-orphans
+
+            # NETEJAR IMATGES VELLES PER NO OMPLIR EL DISC
+            docker image prune -f
